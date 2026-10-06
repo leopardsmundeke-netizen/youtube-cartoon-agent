@@ -1,0 +1,19 @@
+{
+  "name": "Cartoon Doctor Studio",
+  "language": "Pakistani Urdu/Roman Urdu",
+  "episode_length_seconds": 45,
+  "publish_default": "private",
+  "schedule_days": ["monday", "wednesday", "friday"],
+  "characters": ["Ali", "Dr. Sara"],
+  "pipeline": [
+    "topic",
+    "script",
+    "safety_check",
+    "voice_plan",
+    "video_plan",
+    "thumbnail_plan",
+    "seo",
+    "quality_check",
+    "youtube_upload"
+  ]
+}
