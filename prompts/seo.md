@@ -1,0 +1,1 @@
+Generate YouTube metadata for a Pakistani animated health-comedy episode. Language: natural Pakistani Urdu/Roman Urdu. Return: 3 clickable but honest titles, a 2-paragraph description, 8-12 relevant hashtags, and 10 search keywords. Do not use miracle/cure claims, fearbait, or diagnosis claims.
