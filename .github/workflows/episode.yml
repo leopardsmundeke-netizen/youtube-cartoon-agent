@@ -1,0 +1,35 @@
+name: Cartoon Doctor Episode
+
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: Episode topic
+        required: true
+        default: Skin care basics
+  schedule:
+    - cron: "0 9 * * 1,3,5"
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Generate draft
+        env:
+          EPISODE_TOPIC: ${{ inputs.topic || 'Auto topic research' }}
+        run: python src/agent.py > episode-draft.json
+      - name: Save draft
+        run: |
+          mkdir -p episodes
+          cp episode-draft.json episodes/latest-draft.json
+          git config user.name "cartoon-doctor-agent"
+          git config user.email "actions@users.noreply.github.com"
+          git add episodes/latest-draft.json
+          git commit -m "chore: generate episode draft" || true
+          git push
