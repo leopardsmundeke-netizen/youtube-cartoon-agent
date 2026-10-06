@@ -1,0 +1,14 @@
+{
+  "boy": {
+    "name": "Ali",
+    "role": "funny male character",
+    "visual": "consistent 2D animated Pakistani young man, expressive face, casual modern clothes",
+    "speech": "natural Pakistani Urdu/Roman Urdu, short playful sentences"
+  },
+  "doctor": {
+    "name": "Dr. Sara",
+    "role": "serious female doctor",
+    "visual": "consistent 2D animated Pakistani female doctor, white coat, professional appearance",
+    "speech": "simple Pakistani Urdu/Roman Urdu, clear and responsible health education"
+  }
+}
