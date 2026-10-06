@@ -1,0 +1,1 @@
+Create a bright, family-friendly 16:9 YouTube thumbnail for a Pakistani animated health-comedy video. Show Ali looking surprised/funny and Dr. Sara looking confident in a clean cartoon clinic. Use 2-4 large Urdu/Roman Urdu words only, strong facial expressions, high contrast, simple background, no misleading medical claims, no graphic illness imagery.
