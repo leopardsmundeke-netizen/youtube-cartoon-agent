@@ -1,35 +1,64 @@
-name: Cartoon Doctor Episode
+name: Cartoon Doctor Studio
 
 on:
   workflow_dispatch:
     inputs:
       topic:
         description: Episode topic
-        required: true
+        required: false
         default: Skin care basics
+      privacy:
+        description: YouTube privacy mode
+        required: true
+        default: private
+        type: choice
+        options:
+          - private
+          - unlisted
+          - public
   schedule:
     - cron: "0 9 * * 1,3,5"
 
 jobs:
-  draft:
+  episode:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      EPISODE_TOPIC: ${{ inputs.topic || 'Auto health topic' }}
+      YOUTUBE_PRIVACY: ${{ inputs.privacy || 'private' }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+      YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+      YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+      YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+      VIDEO_PROVIDER_API_KEY: ${{ secrets.VIDEO_PROVIDER_API_KEY }}
+      VIDEO_PROVIDER_BASE_URL: ${{ secrets.VIDEO_PROVIDER_BASE_URL }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Generate draft
-        env:
-          EPISODE_TOPIC: ${{ inputs.topic || 'Auto topic research' }}
-        run: python src/agent.py > episode-draft.json
-      - name: Save draft
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build episode
+        run: python src/run_episode.py
+
+      - name: Save episode artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cartoon-doctor-episode
+          path: episodes/latest-episode.json
+
+      - name: Commit episode JSON
         run: |
-          mkdir -p episodes
-          cp episode-draft.json episodes/latest-draft.json
           git config user.name "cartoon-doctor-agent"
           git config user.email "actions@users.noreply.github.com"
-          git add episodes/latest-draft.json
-          git commit -m "chore: generate episode draft" || true
+          git add episodes/latest-episode.json
+          git commit -m "chore: generate cartoon doctor episode" || true
           git push
